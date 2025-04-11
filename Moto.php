@@ -6,15 +6,17 @@
     private $codigo;
     private $costo;
     private $anioFabricacion;
+    private $descripcion;
     private $incrementoAnual;
     private $activa;
 
     //Metodo Constructor
-    public function __construct($codigo,$costo,$anioFabricacion,$incrementoAnual,$activa)
+    public function __construct($codigo,$costo,$anioFabricacion,$descripcion,$incrementoAnual,$activa)
     {
         $this->codigo=$codigo;
         $this->costo=$costo;
         $this->anioFabricacion=$anioFabricacion;
+        $this->descripcion=$descripcion;
         $this->incrementoAnual=$incrementoAnual;
         $this->activa=$activa;
     }
@@ -27,6 +29,9 @@
     }
     public function getAnioFabricacion(){
         return $this->anioFabricacion;
+    }
+    public function getDescripcion(){
+        return $this->descripcion;
     }
     public function getIncrementoAnual(){
         return $this->incrementoAnual;
@@ -44,6 +49,9 @@
     public function setAnioFabricacion($anioFabricacion){
         $this->anioFabricacion=$anioFabricacion;
     }
+    public function setDescripcion($descripcion){
+        $this->descripcion=$descripcion;
+    }
     public function setIncrementoAnual($incrementoAnual){
         $this->incrementoAnual=$incrementoAnual;
     }
@@ -53,11 +61,12 @@
     //Metodo toString
     public function __toString()
     {
-        return "Codigo: ".$this->getCodigo()."\n".
-        "Costo: ".$this->getCosto()."\n".
-        "Año de Fabricacion: ".$this->getAnioFabricacion()."\n".
-        "Porcentaje de Incremento Anual: ".$this->getIncrementoAnual()."%\n".
-        "Activa: ".$this->getActiva()."\n";
+        return " Codigo: ".$this->getCodigo()."\n".
+        " Costo: ".$this->getCosto()."\n".
+        " Año de Fabricacion: ".$this->getAnioFabricacion()."\n".
+        " Descripcion: ".$this->getDescripcion()."\n".
+        " Porcentaje de Incremento Anual: ".$this->getIncrementoAnual()."%\n".
+        " Activa: ".$this->getActiva()."\n";
     }
 
     /**Calcula el valor por el cual puede ser vendida una moto. */
@@ -66,7 +75,7 @@
         $_compra=$this->getCosto();
         $anio=date("Y")-$this->getAnioFabricacion();
         $por_inc_anual=$this->getIncrementoAnual();
-        if ($this->getActiva()=="true") {
+        if ($this->getActiva()) {
             $_venta=$_compra+$_compra*($anio*$por_inc_anual);
         }
         return$_venta;

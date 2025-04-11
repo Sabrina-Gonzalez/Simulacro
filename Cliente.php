@@ -53,9 +53,10 @@ class Cliente{
     //Metodo toString
     public function __toString()
     {
-        return "Nombre: ".$this->getNombre()."\n".
-        "Apellido: ".$this->getApellido()."\n".
-        "Tipo Documento: ".$this->getTipo().", Numero: ".$this->getDocumento()."\n".
-        "Estado: ".$this->getEstado()."\n";
+        return " Nombre: ".$this->getNombre()."\n".
+        " Apellido: ".$this->getApellido()."\n".
+        " Tipo Documento: ".$this->getTipo()."\n".
+        " Numero: ".$this->getDocumento()."\n".
+        " Estado: ".$this->getEstado()."\n";
     }
 }

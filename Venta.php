@@ -52,17 +52,15 @@
     //Metodo toString
     public function __toString()
     {
-        foreach ($this->get_Obj_Cliente() as $cliente) {
-            $_cliente=$cliente."\n";
-        }
+        $_motos="• Motos •\n";
         foreach ($this->get_Obj_Moto() as $moto) {
-            $_moto=$moto."\n";
+            $_motos.=$moto."\n";
         }
         return "Numero: ".$this->getNumero()."\n".
         "Fecha: ".$this->getFecha()."\n".
-        "Cliente\n".$_cliente.
-        "Moto\n".$_moto.
-        "Precio Final: ".$this->getPrecio()."\n";
+        "• Cliente •\n".$this->get_Obj_Cliente().
+        $_motos.
+        "▪ Precio Final: ".$this->getPrecio()."\n";
     }
 
     /**Recibe por parámetro un objeto moto y lo

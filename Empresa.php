@@ -52,20 +52,24 @@
     //Metodo toString
     public function __toString()
     {
+        $clientes="--------Clientes--------\n";
         foreach($this->getClientes() as $cliente){
-            $clientes= $cliente."\n";   
+            $clientes.= $cliente."\n";   
         }
+        $motos="-----------Motos-----------\n";
         foreach ($this->getMotos() as $moto) { 
-            $motos=$moto."\n";   
+            $motos.="▪ ".$moto."\n";   
         }
+        $ventas="----------Ventas-----------\n";
         foreach ($this->getVentas() as $venta) { 
-            $ventas=$venta."\n";   
+            $ventas.=$venta."\n";
         }
-        return "Denominacion: ".$this->getDenominacion()."\n".
+        return "--------------EMPRESA---------------\n".
+        "Denominacion: ".$this->getDenominacion()."\n".
         "Direccion: ".$this->getDireccion()."\n".
-        "Clientes\n".$clientes.
-        "Motos\n".$motos.
-        "Ventas\n".$ventas;
+        $clientes.
+        $motos.
+        $ventas;
     }
 
     /**Recorre la colección de motos de la Empresa y
@@ -75,6 +79,7 @@
         foreach ($this->getMotos() as $moto) {
             if ($moto->getCodigo()==$codigoMoto) {
                 $referencia=$moto;
+                break;
             }
         }
         return $referencia;
@@ -96,10 +101,13 @@
                     $precioFinal=$precioFinal+$precio;
                 }
             }
-            $venta=["cliente"=>$objCliente,"motos"=>$colMotos,"precio final"=>$precioFinal];
-            $ventas=$this->getVentas();
-            $ventas[]=$venta;
-            $this->setVentas($ventas);
+            if (count($colMotos)>0) {
+                $numero=count($this->getVentas())+1;
+                $venta=new Venta($numero,"10/04/2025",$objCliente,$colMotos,$precioFinal);
+                $ventas=$this->getVentas();
+                $ventas[]=$venta;
+                $this->setVentas($ventas);
+            }
         }
         return $precioFinal;
     }
@@ -109,13 +117,10 @@
     *y retorna una colección con las ventas realizadas al cliente */
     public function retornarVentasXCliente($tipo,$numDoc){
         $coleccion=[];
-        foreach ($this->getClientes() as $cliente) {
+        foreach ($this->getVentas() as $venta){
+            $cliente=$venta->get_Obj_Cliente();
             if ($cliente->getTipo()==$tipo && $cliente->getDocumento()==$numDoc) {
-                foreach ($this->getVentas() as $venta){
-                    if ($venta->get_Obj_Cliente()==$cliente) {
-                        $coleccion[]=$venta;
-                    }
-                }
+                $coleccion[]=$venta;
             }
         }
         return $coleccion;
