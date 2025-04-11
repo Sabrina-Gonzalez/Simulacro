@@ -79,7 +79,6 @@
         foreach ($this->getMotos() as $moto) {
             if ($moto->getCodigo()==$codigoMoto) {
                 $referencia=$moto;
-                break;
             }
         }
         return $referencia;
