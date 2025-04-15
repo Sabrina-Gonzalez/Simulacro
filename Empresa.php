@@ -62,7 +62,7 @@
         }
         $ventas="----------Ventas-----------\n";
         foreach ($this->getVentas() as $venta) { 
-            $ventas.=$venta."\n";
+            $ventas.= $venta."\n";
         }
         return "--------------EMPRESA---------------\n".
         "Denominacion: ".$this->getDenominacion()."\n".
@@ -76,10 +76,14 @@
     retorna la referencia al objeto moto cuyo código coincide con el recibido por parámetro. */
     public function retornarMoto($codigoMoto){
         $referencia=false;
-        foreach ($this->getMotos() as $moto) {
+        $motos=$this->getMotos();
+        $i=0;
+        while ($i<count($motos) && !$referencia) {
+            $moto=$motos[$i];
             if ($moto->getCodigo()==$codigoMoto) {
                 $referencia=$moto;
             }
+            $i++;
         }
         return $referencia;
     }
@@ -89,22 +93,27 @@
      *y se incorpora a la colección de motos de la instancia Venta que debe ser creada.
      *El método debe setear los variables instancias de venta que corresponda y retornar el importe final de laventa. */
     public function registrarVenta($colCodigosMoto,$objCliente){
-        $colMotos=[];
+        $colMotos=array();
         $precioFinal=0;
+         // Verificamos que el cliente esté habilitado para comprar
         if ($objCliente->getEstado()) {
+            // Recorremos cada código de moto enviado
             foreach ($colCodigosMoto as $codigoMoto) {
+                 // obtengo el obj moto correspondiente al codigo
                 $moto=$this->retornarMoto($codigoMoto);
-                if ($moto && $moto->getActiva()) {
-                    $colMotos[]=$moto;
-                    $precio=$moto->darPrecioVenta();
-                    $precioFinal=$precioFinal+$precio;
+                if ($moto!=null && $moto->getActiva()) {
+                    array_push($colMotos,$moto);
                 }
             }
-            if (count($colMotos)>0) {
+            if (count($colMotos)>0) {// tengo motos para vender
                 $numero=count($this->getVentas())+1;
-                $venta=new Venta($numero,"10/04/2025",$objCliente,$colMotos,$precioFinal);
+                $venta=new Venta($numero,date("j, n, Y"),$objCliente,[],$precioFinal);
+                foreach ($colMotos as $moto) {
+                    $venta->incorporarMoto($moto);
+                }
+                $precioFinal=$venta->getPrecio();
                 $ventas=$this->getVentas();
-                $ventas[]=$venta;
+                array_push($ventas,$venta);
                 $this->setVentas($ventas);
             }
         }
@@ -115,11 +124,11 @@
     *número de documento de un Cliente 
     *y retorna una colección con las ventas realizadas al cliente */
     public function retornarVentasXCliente($tipo,$numDoc){
-        $coleccion=[];
+        $coleccion=array();
         foreach ($this->getVentas() as $venta){
             $cliente=$venta->get_Obj_Cliente();
             if ($cliente->getTipo()==$tipo && $cliente->getDocumento()==$numDoc) {
-                $coleccion[]=$venta;
+                array_push($coleccion,$venta);
             }
         }
         return $coleccion;

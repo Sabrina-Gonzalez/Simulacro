@@ -29,22 +29,22 @@ if ($_registro==0) {
 }
 
 $ventas=$objEmpresa->retornarVentasXCliente("DNI","30678345");
-if ($ventas==[]) {
-    echo "8)_No hay ventas realizadas al cliente\n";
-}else {
-    echo "8)_Colección con las ventas realizadas al cliente:\n";
+if ($ventas) {
+    echo "8)_Colección con las ventas realizadas al cliente (DNI:30678345):\n";
     foreach ($ventas as $venta) {
         echo $venta."\n";
     }
+}else {
+    echo "8)_No hay ventas realizadas al cliente (DNI:30678345).\n";
 }
 
 $_ventas=$objEmpresa->retornarVentasXCliente("DNI","25934769");
-if ($_ventas==[]) {
-    echo "9)No hay ventas realizadas al cliente\n";
-}else {
-    echo "9)_Colección con las ventas realizadas al cliente:\n";
+if ($_ventas) {
+    echo "9)_Colección con las ventas realizadas al cliente (DNI:25934769):\n";
     foreach ($_ventas as $venta) {
         echo $venta."\n";
     }
+}else {
+    echo "9)No hay ventas realizadas al cliente (DNI:25934769).\n";
 }
 echo "10)_\n".$objEmpresa;

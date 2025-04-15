@@ -69,14 +69,16 @@
     Utilizar el método que calcula el precio de venta de la moto donde crea necesario. */
     public function incorporarMoto($objMoto){
         $true=false;
-        $moto=$this->get_Obj_Moto();
-        if ($moto->getActiva()) {
-            $coleccionMotos=$this->get_Obj_Moto();
-            $coleccionMotos[]=$objMoto;
-            $this->set_Obj_Moto($coleccionMotos);
-            $precio=$objMoto->darPrecioVenta();
-            $precioFinal=$this->getPrecio()+$precio;
-            $this->setPrecio($precioFinal);
+        $moto=$objMoto->getActiva();
+        if ($moto) {
+            // Guardo la moto que entra en un array
+            $coleccionMotos=$this->get_Obj_Moto(); # Obtengo 
+            $coleccionMotos[]=$objMoto; # Almaceno
+            $this->set_Obj_Moto($coleccionMotos); # Modifico
+            // Actualizacion de la variable precioFinal con la funcion darPrecioVenta
+            $precio=$objMoto->darPrecioVenta(); # Obtengo el precio de venta
+            $precioFinal=$this->getPrecio()+$precio; # Obtengo el precio final
+            $this->setPrecio($precioFinal); # Actualizo el precio final
             $true=true;
         }
         return $true;
